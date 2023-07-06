@@ -23,8 +23,9 @@ function reducer(state, {type, payload}) {
           overwrite: false,
         }
       }
+      if (state.currentOperand === Number.POSITIVE_INFINITY) return {};
       if ( payload.digit === "0" && state.currentOperand === "0") return state
-      if ( payload.digit === "." && state.currentOperand.includes(".")) return state
+      if (payload.digit === "." && state.currentOperand?.includes(".")) return state
       return {
         ...state,
         currentOperand: `${state.currentOperand || ""}${payload.digit}`,
@@ -46,15 +47,15 @@ function reducer(state, {type, payload}) {
         operation: payload.operation,
         previousOperand: state.currentOperand,
         currentOperand: null,
+        }
       }
-    }
 
     return {
       ...state,
       previousOperand: evaluate(state),
       operation: payload.operation,
       currentOperand: null,
-    }
+      }
 
     case ACTIONS.CLEAR:
       return {}
